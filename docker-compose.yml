@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  audio-slicer:
+    image: audio-slicer-app
+    build:
+      context: .
+    ports:
+      - "5001:5001"
+    restart: always
