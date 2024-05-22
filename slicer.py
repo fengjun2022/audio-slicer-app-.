@@ -43,9 +43,9 @@ class Slicer:
     def __init__(self,
                  sr: int,
                  db_threshold: float = -40,
-                 min_length: int = 5000,
-                 win_l: int = 300,
-                 win_s: int = 20,
+                 min_length: int = 2800,
+                 win_l: int = 200,
+                 win_s: int = 100,
                  max_silence_kept: int = 500):
         self.db_threshold = db_threshold
         self.min_samples = round(sr * min_length / 1000)
