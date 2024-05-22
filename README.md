@@ -1,14 +1,15 @@
 
 #  audio-slicer docker 部署
-# 注意：本项目主体使用开源项目 audio-slicer 项目 ，本项目
-# 是提供了基于 audio-slicer 封装为接口和docker部署模式
+# 注意：本项目主体使用开源项目 audio-slicer 项目 ，本项目是提供了基于 audio-slicer 封装为接口和docker部署模式
+
 # 贴上项目地址感谢大佬开源： https://github.com/flutydeer/audio-slicer
 
 
-打包： docker build -t audio-slicer-app .
+打包：
+docker build -t audio-slicer-app .
 
-
-运行：docker run -d -p 5001:5001 --name audio-slicer-container audio-slicer-app
+docker运行：
+docker run -d -p 5001:5001 --name audio-slicer-container audio-slicer-app
 
 # 以下为原文档
 # 音频切片机
