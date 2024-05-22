@@ -1,3 +1,5 @@
+import shutil
+
 from flask import Flask, request, jsonify, send_file
 import os
 import zipfile
@@ -27,13 +29,18 @@ def slice_audio_endpoint():
     max_sil_kept = int(request.form.get('max_sil_kept', 500))
 
     # 为音频文件设置临时存储路径
-    audio_path = os.path.join('/tmp', audio_file.filename)
+    temp_dir = os.path.join('tmp', 'audio_slicer')
+    os.makedirs(temp_dir, exist_ok=True)
+    audio_path = os.path.join(temp_dir, audio_file.filename)
     # 保存音频文件到临时路径
     audio_file.save(audio_path)
 
     # 如果未指定输出目录，则使用默认的临时目录
     if output_dir is None:
-        output_dir = os.path.join('/tmp', 'sliced_audio')
+        output_dir = os.path.join(temp_dir, 'sliced_audio')
+    else:
+        output_dir = os.path.join('relative_path', output_dir)
+    os.makedirs(output_dir, exist_ok=True)
 
     # 使用 slice_audio 函数切割音频，并返回切割后的音频文件路径列表
     chunk_paths = slice_audio(audio_path, output_dir, db_thresh, min_length, min_interval, hop_size, max_sil_kept)
@@ -46,7 +53,12 @@ def slice_audio_endpoint():
             zipf.write(chunk_path, os.path.basename(chunk_path))
 
     # 将压缩文件作为附件返回给客户端
-    return send_file(zip_path, as_attachment=True)
+    response = send_file(zip_path, as_attachment=True)
+
+    # 删除临时文件和目录
+    shutil.rmtree(temp_dir)
+
+    return response
 
 # 启动 Flask 应用
 if __name__ == '__main__':
