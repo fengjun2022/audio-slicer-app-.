@@ -15,18 +15,30 @@ def slice_audio_endpoint():
 
     # 从请求中获取音频文件
     audio_file = request.files['audio']
+    print()
+
     # 获取输出目录，如果没有提供，则默认为 None
     output_dir = request.form.get('out', None)
+    print(output_dir)
     # 获取降噪阈值，没有则默认为 -40 dB
     db_thresh = float(request.form.get('db_thresh', -40))
+    print(db_thresh)
+
     # 获取最小切片长度，没有则默认为 5000 毫秒
     min_length = int(request.form.get('min_length', 5000))
+    print(min_length)
+
     # 获取切片间最小间隔，没有则默认为 300 毫秒
     min_interval = int(request.form.get('min_interval', 300))
+    print(min_interval)
+
     # 获取跳跃大小，没有则默认为 10 毫秒
     hop_size = int(request.form.get('hop_size', 10))
+    print(hop_size)
+
     # 获取保留的最大静音长度，没有则默认为 500 毫秒
     max_sil_kept = int(request.form.get('max_sil_kept', 500))
+    print(max_sil_kept)
 
     # 为音频文件设置临时存储路径
     temp_dir = os.path.join('tmp', 'audio_slicer')
@@ -62,4 +74,4 @@ def slice_audio_endpoint():
 
 # 启动 Flask 应用
 if __name__ == '__main__':
-    app.run(host='localhost', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
